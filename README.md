@@ -12,7 +12,7 @@ around the grid as described above.
 reference to the parent node, the move that led to the current state (did the blank move Up, Right, 
 Down,  Left),  and  the  depth.  For  one  of  the  searches,  you  will  need  to  store  the  evaluation  of  the 
 heuristic and the cost. You should only have one node data structure.
-- [ ] Develop a set of rules for generating children (successor states). When developing your children, make 
+- [X] Develop a set of rules for generating children (successor states). When developing your children, make 
 sure that they are expanded in clockwise order (blank moves U, R, D, L) when those moves are 
 allowed from the parent state regardless of the search strategy. 
 - [ ] Implement the breadth-first algorithm to solve the 8-tile puzzle allowing repeated states.  To avoid 
