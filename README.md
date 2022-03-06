@@ -6,6 +6,8 @@ numbered, 1 thru 8 for the 8-puzzle, so that each tile can be uniquely identifie
 to achieve a given configuration of tiles from a given (different) configuration by sliding the individual tiles 
 around the grid as described above.
 
+### Link to the report
+https://livecsbsju-my.sharepoint.com/:w:/g/personal/mnguyen001_csbsju_edu/EdSKIQPAE8lBmS_CuMFhLNwB8lV93gxw3sFQKIn0AaEtrw?e=tC0NJ7 
 
 ## Step to run the code in terminal
 ~~~
