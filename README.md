@@ -6,6 +6,13 @@ numbered, 1 thru 8 for the 8-puzzle, so that each tile can be uniquely identifie
 to achieve a given configuration of tiles from a given (different) configuration by sliding the individual tiles 
 around the grid as described above.
 
+
+## Step to run the code in terminal
+~~~
+git init 
+git clone https://github.com/annanguyen99/CSCI338_TileGame 
+git pull origin master
+~~~
 ## TODO LIST
 - [ ] Develop a way to store the state of the 8-tile puzzle.  This will be your state description.
 - [X] Develop  a  node  data  structure.    In  the  node  you  will  store  the  current  state  of  the  8-tile  puzzle,  a 
