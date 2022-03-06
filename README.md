@@ -8,7 +8,7 @@ around the grid as described above.
 
 ## TODO LIST
 - [ ] Develop a way to store the state of the 8-tile puzzle.  This will be your state description.
-- [ ] Develop  a  node  data  structure.    In  the  node  you  will  store  the  current  state  of  the  8-tile  puzzle,  a 
+- [X] Develop  a  node  data  structure.    In  the  node  you  will  store  the  current  state  of  the  8-tile  puzzle,  a 
 reference to the parent node, the move that led to the current state (did the blank move Up, Right, 
 Down,  Left),  and  the  depth.  For  one  of  the  searches,  you  will  need  to  store  the  evaluation  of  the 
 heuristic and the cost. You should only have one node data structure.
