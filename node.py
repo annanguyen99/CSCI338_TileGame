@@ -3,6 +3,8 @@ import copy
 class Node:
     """
     Node class that will store the current state of the 8-tile puzzle
+    The code inspired from Professor Heather code for CSCI AI class Fall 2021
+    :author : Anna Nguyen & Ethan Youso
     """
 
     def __init__(self, state, parent, action, root):
@@ -20,7 +22,7 @@ class Node:
             self.depth = 0
         else:
             self.depth = 1 + self.parent.getDepth()
-        self.cost = self.calCost()
+        self.cost = self.calcCost()
 
     def __repr__(self):
         """Return the state in three rows"""
@@ -246,3 +248,13 @@ class Node:
             distance = x + y
             totalDistance += distance
         return totalDistance
+
+if __name__ == "__main__":
+    print("Hello! Welcome to fast testing node class")
+    line = "1 2 3 4 0 6 7 5 8"
+    start = line.split(" ")
+    n = Node(start, None, "Start", True)
+    print("Find blank method")
+    print(n.findBlank())
+
+
