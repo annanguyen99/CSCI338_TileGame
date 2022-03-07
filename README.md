@@ -9,6 +9,10 @@ around the grid as described above.
 ### Link to the report
 https://livecsbsju-my.sharepoint.com/:w:/g/personal/mnguyen001_csbsju_edu/EdSKIQPAE8lBmS_CuMFhLNwB8lV93gxw3sFQKIn0AaEtrw?e=tC0NJ7 
 
+### Make sure to have this package first
+~~~
+matplotlib
+~~~
 ## Step to run the code in terminal
 ~~~
 git init 
