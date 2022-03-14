@@ -9,16 +9,16 @@ around the grid as described above.
 ### Link to the report
 https://livecsbsju-my.sharepoint.com/:w:/g/personal/mnguyen001_csbsju_edu/EdSKIQPAE8lBmS_CuMFhLNwB8lV93gxw3sFQKIn0AaEtrw?e=tC0NJ7 
 
-## Step to run the code in terminal
+## Step to download the code in terminal
 ~~~
 git init 
 git clone https://github.com/annanguyen99/CSCI338_TileGame 
 git pull origin master
 ~~~
 
-### Make sure to have this package first
+## Step to run TileGame
 ~~~
-
+python3 TileGame.py testinput.txt
 ~~~
 
 ## TODO LIST
