@@ -18,7 +18,7 @@ git pull origin master
 
 ### Make sure to have this package first
 ~~~
-import matplotlib
+
 ~~~
 
 ## TODO LIST
