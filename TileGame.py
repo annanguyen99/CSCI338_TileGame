@@ -39,11 +39,11 @@ def main():
 
 def search(start, goal, searchType):
     """
-
+    Search method which implement BFS and DLS
     :param start: the start node (puzzle broad)
     :param goal: the goal node (puzzle broad)
-    :param searchType: 1 - BFS
-    :return:
+    :param searchType: 1 - BFS; 2- DLS
+    :return: number of node explored, all the node explored, all the fringe
     """
     explored = [] #states I have seen
     fringe = [] #stored kids
@@ -78,10 +78,10 @@ def search(start, goal, searchType):
 
 def informedSearch (start, goal):
     """
-
-    :param start:
-    :param goal:
-    :return:
+    Search method that perform A* search
+    :param start: the start node
+    :param goal: the goal node
+    :return: number of node explored, all the node explored, all the fringe
     """
     explored = []
     queue = PriorityQueue()
@@ -106,9 +106,9 @@ def informedSearch (start, goal):
 
 def rebuildSolution(node):
     """
-
-    :param node:
-    :return:
+    Rebuild solution method
+    :param node: the goal node
+    :return: the path to the solution
     """
     stack = []
     while node != None:
@@ -123,7 +123,6 @@ def rebuildSolution(node):
 def printResult(numberExplored, explored, fringe, verbose):
     """
     Print out the result
-    :return:
     """
     print("The number of broad explored: " + str(len(numberExplored)))
     print("The number of broad stored in memory: " + str(len(explored)))
