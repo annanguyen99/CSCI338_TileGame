@@ -249,12 +249,4 @@ class Node:
             totalDistance += distance
         return totalDistance
 
-if __name__ == "__main__":
-    print("Hello! Welcome to fast testing node class")
-    line = "1 2 3 4 0 6 7 5 8"
-    start = line.split(" ")
-    n = Node(start, None, "Start", True)
-    print("Find blank method")
-    print(n.findBlank())
-
 
