@@ -4,7 +4,12 @@ from queue import PriorityQueue
 
 def main():
     if len(sys.argv) >=2 :
-        filename = sys.argv[1]
+        verbose = False
+        if len(sys.argv) == 3 and sys.argv[1] == "-v":
+            verbose = True
+            filename = sys.argv[2]
+        else:
+            filename = sys.argv[1]
         with open(filename) as f:
             lines = [line.rstrip() for line in f]
         for i in range(0, len(lines), 2):
@@ -15,30 +20,16 @@ def main():
                 print()
                 print("Breadth-first algorithm")
                 numberExplored, explored, fringe = search(n, goal, 1)
-                print("The number of broad explored: " + str(len(numberExplored)))
-                print("The number of broad stored in memory: " + str(len(explored)))
-                print("The number of the nodes on the fringe: " + str(len(fringe)))
-                if len(sys.argv) == 3 and sys.argv[2] == "-v":
-                    print("Verbose mode")
-                    for i in numberExplored:
-                        print(i)
-
+                printResult(numberExplored, explored, fringe, verbose)
                 print()
                 print("Depth-limited search algorithm")
                 numberExplored_dls, explored_dls, fringe_dls = search(n, goal, 2)
-                print("The number of broad explored: " + str(len(numberExplored_dls)))
-                print("The number of broad stored in memory: " + str(len(explored_dls)))
-                print("The number of the nodes on the fringe: " + str(len(fringe_dls)))
-                if len(sys.argv) == 3 and sys.argv[2] == "-v":
-                    print("Verbose mode")
-                    for i in numberExplored:
-                        print(i)
+                printResult(numberExplored_dls, explored_dls, fringe_dls, verbose)
                 print()
                 print("A* - Manhattan Distance")
                 numberExplored_a, explored_a, queue = informedSearch(n, goal)
-                print("The number of broad explored: " + str(len(numberExplored_a)))
-                print("The number of broad stored in memory: " + str(len(explored_a)))
-                print("The number of the nodes on the fringe: " + str(queue.qsize()))
+                printResult(numberExplored_a, explored_a, queue, verbose)
+
             else:
                 print("Unsolvable")
         return
@@ -63,10 +54,10 @@ def search(start, goal, searchType):
     cost = 0
 
     while fringe:
-
         # BFS
         if searchType == 1:
             node = fringe.pop(0)
+        # DLS
         elif searchType == 2:
             node = fringe.pop()
         #calculate the cost for each node
@@ -106,7 +97,7 @@ def informedSearch (start, goal):
         else:
             kids, moves = node.findKids()
             for i in range(len(kids)):
-                if (kids[i] not in explored):
+                if (kids[i] not in explored  and node.getDepth() <= 10):
                     newNode = Node(kids[i], node, moves[i], False)
                     cost = newNode.diffTiles(goal) + newNode.calcCost()
                     explored.append(kids[i])
@@ -129,6 +120,21 @@ def rebuildSolution(node):
         solution.append(s.getAction())
     print(f"moves to solution: {solution}")
 
+def printResult(numberExplored, explored, fringe, verbose):
+    """
+    Print out the result
+    :return:
+    """
+    print("The number of broad explored: " + str(len(numberExplored)))
+    print("The number of broad stored in memory: " + str(len(explored)))
+    if fringe.__class__ == PriorityQueue:
+        print("The number of the nodes on the queue: " + str(fringe.qsize()))
+    else:
+        print("The number of the nodes on the fringe: " + str(len(fringe)))
+    if verbose:
+        print("Verbose mode")
+        for i in numberExplored:
+            print(i)
 main()
 
 
