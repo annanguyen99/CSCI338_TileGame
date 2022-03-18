@@ -29,7 +29,7 @@ class Node:
         row1 = f"{self.state[0]}  {self.state[1]}  {self.state[2]} "
         row2 = f"{self.state[3]}  {self.state[4]}  {self.state[5]} "
         row3 = f"{self.state[6]}  {self.state[7]}  {self.state[8]} "
-        return f"{row1}\n{row2}\n{row3}"
+        return f"{row1}\n{row2}\n{row3}\n"
 
     def calcCost(self):
         """cost of this move - cumulative from parent"""
@@ -79,20 +79,28 @@ class Node:
                 return False
         return True
 
-    def findKids(self):
+    def findKids(self, search):
         """this generates the kids based on where the blank is
         """
         pos = self.findBlank()
         kids = []  # keep track of all the kids you can make from this point
         moves = []  # keep track of how the blank slide to make the kid
-        if pos == 0:
+        if pos == 0 and search ==1 :
             moveR = copy.deepcopy(self.state)
             moveD = copy.deepcopy(self.state)
             kids.append(self.swap(moveR, pos, 1))
             kids.append(self.swap(moveD, pos, 3))
             moves.append('R')
             moves.append('D')
-        elif pos == 1:
+        elif pos == 0 and search ==2 :
+            moveR = copy.deepcopy(self.state)
+            moveD = copy.deepcopy(self.state)
+            kids.append(self.swap(moveD, pos, 3))
+            kids.append(self.swap(moveR, pos, 1))
+            moves.append('D')
+            moves.append('R')
+
+        elif pos == 1 and search == 1:
             moveR = copy.deepcopy(self.state)
             moveD = copy.deepcopy(self.state)
             moveL = copy.deepcopy(self.state)
@@ -102,14 +110,35 @@ class Node:
             moves.append('R')
             moves.append('D')
             moves.append('L')
-        elif pos == 2:
+
+        elif pos == 1 and search == 2:
+            moveR = copy.deepcopy(self.state)
+            moveD = copy.deepcopy(self.state)
+            moveL = copy.deepcopy(self.state)
+            kids.append(self.swap(moveL, pos, 0))
+            kids.append(self.swap(moveD, pos, 4))
+            kids.append(self.swap(moveR, pos, 2))
+            moves.append('L')
+            moves.append('D')
+            moves.append('R')
+
+        elif pos == 2 and search == 1 :
             moveD = copy.deepcopy(self.state)
             moveL = copy.deepcopy(self.state)
             kids.append(self.swap(moveD, pos, 5))
             kids.append(self.swap(moveL, pos, 1))
             moves.append('D')
             moves.append('L')
-        elif pos == 3:
+
+        elif pos == 2 and search == 2 :
+            moveD = copy.deepcopy(self.state)
+            moveL = copy.deepcopy(self.state)
+            kids.append(self.swap(moveD, pos, 1))
+            kids.append(self.swap(moveL, pos, 5))
+            moves.append('L')
+            moves.append('R')
+
+        elif pos == 3 and search == 1:
             moveU = copy.deepcopy(self.state)
             moveR = copy.deepcopy(self.state)
             moveD = copy.deepcopy(self.state)
@@ -120,7 +149,18 @@ class Node:
             moves.append('R')
             moves.append('D')
 
-        elif pos == 4:
+        elif pos == 3 and search == 2:
+            moveU = copy.deepcopy(self.state)
+            moveR = copy.deepcopy(self.state)
+            moveD = copy.deepcopy(self.state)
+            kids.append(self.swap(moveU, pos, 6))
+            kids.append(self.swap(moveR, pos, 4))
+            kids.append(self.swap(moveD, pos, 0))
+            moves.append('D')
+            moves.append('R')
+            moves.append('U')
+
+        elif pos == 4 and search ==1 :
             moveU = copy.deepcopy(self.state)
             moveR = copy.deepcopy(self.state)
             moveD = copy.deepcopy(self.state)
@@ -133,7 +173,22 @@ class Node:
             moves.append('R')
             moves.append('D')
             moves.append('L')
-        elif pos == 5:
+
+        elif pos == 4 and search ==2 :
+            moveU = copy.deepcopy(self.state)
+            moveR = copy.deepcopy(self.state)
+            moveD = copy.deepcopy(self.state)
+            moveL = copy.deepcopy(self.state)
+            kids.append(self.swap(moveU, pos, 3))
+            kids.append(self.swap(moveR, pos, 7))
+            kids.append(self.swap(moveD, pos, 5))
+            kids.append(self.swap(moveL, pos, 1))
+            moves.append('L')
+            moves.append('D')
+            moves.append('R')
+            moves.append('U')
+
+        elif pos == 5 and search ==1 :
             moveU = copy.deepcopy(self.state)
             moveD = copy.deepcopy(self.state)
             moveL = copy.deepcopy(self.state)
@@ -143,14 +198,33 @@ class Node:
             moves.append('U')
             moves.append('D')
             moves.append('L')
-        elif pos == 6:
+        elif pos == 5 and search ==2 :
+            moveU = copy.deepcopy(self.state)
+            moveD = copy.deepcopy(self.state)
+            moveL = copy.deepcopy(self.state)
+            kids.append(self.swap(moveU, pos, 4))
+            kids.append(self.swap(moveD, pos, 8))
+            kids.append(self.swap(moveL, pos, 2))
+            moves.append('L')
+            moves.append('D')
+            moves.append('U')
+
+        elif pos == 6 and search == 1:
             moveU = copy.deepcopy(self.state)
             moveR = copy.deepcopy(self.state)
             kids.append(self.swap(moveU, pos, 3))
             kids.append(self.swap(moveR, pos, 7))
             moves.append('U')
             moves.append('R')
-        elif pos == 7:
+        elif pos == 6 and search == 2:
+            moveU = copy.deepcopy(self.state)
+            moveR = copy.deepcopy(self.state)
+            kids.append(self.swap(moveU, pos, 7))
+            kids.append(self.swap(moveR, pos, 3))
+            moves.append('R')
+            moves.append('U')
+
+        elif pos == 7 and search ==1 :
             moveU = copy.deepcopy(self.state)
             moveR = copy.deepcopy(self.state)
             moveL = copy.deepcopy(self.state)
@@ -160,13 +234,32 @@ class Node:
             moves.append('U')
             moves.append('R')
             moves.append('L')
-        elif pos == 8:
+        elif pos == 7 and search ==2 :
+            moveU = copy.deepcopy(self.state)
+            moveR = copy.deepcopy(self.state)
+            moveL = copy.deepcopy(self.state)
+            kids.append(self.swap(moveU, pos, 6))
+            kids.append(self.swap(moveR, pos, 8))
+            kids.append(self.swap(moveL, pos, 4))
+            moves.append('L')
+            moves.append('R')
+            moves.append('U')
+
+        elif pos == 8 and search ==1 :
             moveU = copy.deepcopy(self.state)
             moveL = copy.deepcopy(self.state)
             kids.append(self.swap(moveU, pos, 5))
             kids.append(self.swap(moveL, pos, 7))
             moves.append('U')
             moves.append('L')
+        elif pos == 8 and search ==2 :
+            moveU = copy.deepcopy(self.state)
+            moveL = copy.deepcopy(self.state)
+            kids.append(self.swap(moveU, pos, 7))
+            kids.append(self.swap(moveL, pos, 5))
+            moves.append('L')
+            moves.append('U')
+
         return kids, moves
 
     def swap(self, board, pos1, pos2):
@@ -223,7 +316,7 @@ class Node:
 
     def diffTiles(self, goal):
         """
-
+        Misplaces tiles
         :param goal:
         :return:
         """
@@ -233,20 +326,5 @@ class Node:
                 count += 1
         return count
 
-    def calDistance(self):
-        """
-
-        :return:
-        """
-        goalDistance = [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)]
-        totalDistance = 0
-        for i in range(len(self.state)):
-            x2, y2 = goalDistance[int(self.state[i]) - 1]
-            x1, y1 = goalDistance[i]
-            x = abs(x2 - x1)
-            y = abs(y2 - y1)
-            distance = x + y
-            totalDistance += distance
-        return totalDistance
 
 

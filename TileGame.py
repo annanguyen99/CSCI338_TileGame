@@ -26,7 +26,7 @@ def main():
                 numberExplored_dls, explored_dls, fringe_dls = search(n, goal, 2)
                 printResult(numberExplored_dls, explored_dls, fringe_dls, verbose)
                 print()
-                print("A* - Manhattan Distance")
+                print("A* - Number of Tiles Out of Place")
                 numberExplored_a, explored_a, queue = informedSearch(n, goal)
                 printResult(numberExplored_a, explored_a, queue, verbose)
 
@@ -63,12 +63,15 @@ def search(start, goal, searchType):
         #calculate the cost for each node
         cost += node.calcCost()
         #increment the number of node explore
-        numberExplored.append(node.state)
+        numberExplored.append(node)
         if node.isGoal(goal):
             rebuildSolution(node)
             return numberExplored, explored, fringe
         else:
-            kids, moves = node.findKids()
+            if searchType == 1:
+                kids, moves = node.findKids(1)
+            elif searchType == 2:
+                kids, moves = node.findKids(2)
             for i in range(len(kids)):
                 if(kids[i] not in explored and node.getDepth() <= 10):
                     newNode = Node(kids[i], node, moves[i], False)
@@ -90,12 +93,12 @@ def informedSearch (start, goal):
     numberExplored = []
     while queue:
         node = queue.get()[1]
-        numberExplored.append(node.state)
+        numberExplored.append(node)
         if node.isGoal(goal):
             rebuildSolution(node)
             return numberExplored, explored, queue
         else:
-            kids, moves = node.findKids()
+            kids, moves = node.findKids(1)
             for i in range(len(kids)):
                 if (kids[i] not in explored  and node.getDepth() <= 10):
                     newNode = Node(kids[i], node, moves[i], False)
