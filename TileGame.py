@@ -1,6 +1,7 @@
 from node import *
 import sys
 from queue import PriorityQueue
+import matplotlib.pyplot as plt
 
 def main():
     if len(sys.argv) >=2 :
@@ -29,6 +30,7 @@ def main():
                 print("A* - Number of Tiles Out of Place")
                 numberExplored_a, explored_a, queue = informedSearch(n, goal)
                 printResult(numberExplored_a, explored_a, queue, verbose)
+                plotBar(numberExplored, numberExplored_dls, numberExplored_a )
 
             else:
                 print("Unsolvable")
@@ -122,6 +124,24 @@ def rebuildSolution(node):
         s = stack.pop()
         solution.append(s.getAction())
     print(f"moves to solution: {solution}")
+
+def plotBar(bfs, dls, astar):
+    """
+
+    :param explored:
+    :return:
+    """
+    list =[]
+    list.append(len(bfs))
+    list.append(len(dls))
+    list.append(len(astar))
+    searches=["BFS", "DLS", "A*-Manhattan"]
+    x_pos = [i for i, _ in enumerate(searches)]
+    plt.bar(x_pos, list, color='yellow')
+    plt.xlabel("Search type")
+    plt.ylabel("Number of explored nodes")
+    plt.xticks(x_pos, searches)
+    plt.show()
 
 def printResult(numberExplored, explored, fringe, verbose):
     """
