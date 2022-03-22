@@ -1,7 +1,10 @@
+import statistics
+
 from node import *
 import sys
 from queue import PriorityQueue
 import matplotlib.pyplot as plt
+from statistics import mean
 
 def main():
     if len(sys.argv) >=2 :
@@ -13,6 +16,27 @@ def main():
             filename = sys.argv[1]
         with open(filename) as f:
             lines = [line.rstrip() for line in f]
+        # Array that store all the BFS number of explored nodes
+        breadth_num = []
+        # Array that store all the BFS number of memory nodes
+        breadth_explored = []
+        # Array that store all the BFS number of fringe nodes
+        breadth_fringe = []
+
+        # Array that store all the DLS number of explored nodes
+        depth_num = []
+        # Array that store all the DLS number of memory nodes
+        depth_explored = []
+        # Array that store all the DLS number of fringe nodes
+        depth_fringe = []
+
+        # Array that store all the DLS number of explored nodes
+        astar_num = []
+        # Array that store all the DLS number of memory nodes
+        astar_explored = []
+        # Array that store all the DLS number of fringe nodes
+        astar_fringe = []
+
         for i in range(0, len(lines), 2):
             start = lines[i].split(" ")
             goal = lines[i+1].split(" ")
@@ -22,18 +46,29 @@ def main():
                 print("Breadth-first algorithm")
                 numberExplored, explored, fringe = search(n, goal, 1)
                 printResult(numberExplored, explored, fringe, verbose)
+                breadth_num.append(len(numberExplored))
+                breadth_explored.append(len(explored))
+                breadth_fringe.append(len(fringe))
                 print()
                 print("Depth-limited search algorithm")
                 numberExplored_dls, explored_dls, fringe_dls = search(n, goal, 2)
                 printResult(numberExplored_dls, explored_dls, fringe_dls, verbose)
+                depth_num.append(len(numberExplored_dls))
+                depth_explored.append(len(explored_dls))
+                depth_fringe.append(len(fringe_dls))
                 print()
                 print("A* - Number of Tiles Out of Place")
                 numberExplored_a, explored_a, queue = informedSearch(n, goal)
                 printResult(numberExplored_a, explored_a, queue, verbose)
-                plotBar(numberExplored, numberExplored_dls, numberExplored_a )
+                astar_num.append(len(numberExplored_a))
+                astar_explored.append(len(explored_a))
+                astar_fringe.append(queue.qsize())
 
             else:
                 print("Unsolvable")
+        plotBar(breadth_num, depth_num, astar_num, "Number of explored states")
+        plotBar(breadth_explored, depth_explored, astar_explored, "Number of all the nodes in memory")
+        plotBar(breadth_fringe, depth_fringe, astar_fringe, "Number of nodes in the fringe")
         return
     else:
         print("Invalid input file")
@@ -125,21 +160,26 @@ def rebuildSolution(node):
         solution.append(s.getAction())
     print(f"moves to solution: {solution}")
 
-def plotBar(bfs, dls, astar):
+def plotBar(bfs, dls, astar, title):
     """
 
     :param explored:
     :return:
     """
     list =[]
-    list.append(len(bfs))
-    list.append(len(dls))
-    list.append(len(astar))
-    searches=["BFS", "DLS", "A*-Manhattan"]
+    error =[]
+    list.append(mean(bfs))
+    error.append(statistics.stdev(bfs))
+    list.append(mean(dls))
+    error.append(statistics.stdev(dls))
+    list.append(mean(astar))
+    error.append(statistics.stdev(astar))
+    searches=["BFS", "DLS", "A*"]
     x_pos = [i for i, _ in enumerate(searches)]
     plt.bar(x_pos, list, color='yellow')
     plt.xlabel("Search type")
-    plt.ylabel("Number of explored nodes")
+    plt.ylabel(title)
+    plt.errorbar(x_pos, list, yerr=error, fmt="o", color="r")
     plt.xticks(x_pos, searches)
     plt.show()
 
