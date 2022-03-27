@@ -1,10 +1,10 @@
-import statistics
+# import statistics
 
 from node import *
 import sys
 from queue import PriorityQueue
-import matplotlib.pyplot as plt
-from statistics import mean
+# import matplotlib.pyplot as plt
+# from statistics import mean
 
 def main():
     if len(sys.argv) >=2 :
@@ -66,9 +66,9 @@ def main():
 
             else:
                 print("Unsolvable")
-        plotBar(breadth_num, depth_num, astar_num, "Number of explored states")
-        plotBar(breadth_explored, depth_explored, astar_explored, "Number of all the nodes in memory")
-        plotBar(breadth_fringe, depth_fringe, astar_fringe, "Number of nodes in the fringe")
+        # plotBar(breadth_num, depth_num, astar_num, "Number of explored states")
+        # plotBar(breadth_explored, depth_explored, astar_explored, "Number of all the nodes in memory")
+        # plotBar(breadth_fringe, depth_fringe, astar_fringe, "Number of nodes in the fringe")
         return
     else:
         print("Invalid input file")
