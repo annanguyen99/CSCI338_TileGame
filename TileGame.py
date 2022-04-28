@@ -44,18 +44,26 @@ def main():
             if n.solvable(goal):
                 print()
                 print("Breadth-first algorithm")
+                numberExplored_bfs, explored_bfs, fringe_bfs = repeated_search(n, goal, 1)
+                printResult(numberExplored_bfs, explored_bfs, fringe_bfs, verbose)
+                print()
+                print("Breadth-first algorithm without repeated")
                 numberExplored, explored, fringe = search(n, goal, 1)
                 printResult(numberExplored, explored, fringe, verbose)
                 breadth_num.append(len(numberExplored))
                 breadth_explored.append(len(explored))
                 breadth_fringe.append(len(fringe))
                 print()
-                print("Depth-limited search algorithm")
+                print("Depth-limited search algorithm without repeated")
                 numberExplored_dls, explored_dls, fringe_dls = search(n, goal, 2)
                 printResult(numberExplored_dls, explored_dls, fringe_dls, verbose)
                 depth_num.append(len(numberExplored_dls))
                 depth_explored.append(len(explored_dls))
                 depth_fringe.append(len(fringe_dls))
+                print()
+                print("Depth-limited search algorithm")
+                numberExplored_dls_1, explored_dls_1, fringe_dls_1 = repeated_search(n, goal, 2)
+                printResult(numberExplored_dls_1, explored_dls_1, fringe_dls_1, verbose)
                 print()
                 print("A* - Number of Tiles Out of Place")
                 numberExplored_a, explored_a, queue = informedSearch(n, goal)
@@ -76,7 +84,7 @@ def main():
 
 def search(start, goal, searchType):
     """
-    Search method which implement BFS and DLS
+    Search method which implement BFS and DLS without repeated nodes
     :param start: the start node (puzzle broad)
     :param goal: the goal node (puzzle broad)
     :param searchType: 1 - BFS; 2- DLS
@@ -105,12 +113,55 @@ def search(start, goal, searchType):
             rebuildSolution(node)
             return numberExplored, explored, fringe
         else:
-            if searchType == 1:
-                kids, moves = node.findKids(1)
-            elif searchType == 2:
-                kids, moves = node.findKids(2)
-            for i in range(len(kids)):
-                if(kids[i] not in explored and node.getDepth() <= 10):
+            if (node.getDepth() <= 10):
+                if searchType == 1:
+                    kids, moves = node.findKids(1)
+                elif searchType == 2:
+                    kids, moves = node.findKids(2)
+                for i in range(len(kids)):
+                    if(kids[i] not in explored):
+                        newNode = Node(kids[i], node, moves[i], False)
+                        fringe.append(newNode)
+                        explored.append(kids[i])
+    return numberExplored, explored, fringe
+
+def repeated_search(start, goal, searchType):
+    """
+    Search method which implement BFS and DLS with repeated nodes
+    :param start: the start node (puzzle broad)
+    :param goal: the goal node (puzzle broad)
+    :param searchType: 1 - BFS; 2- DLS
+    :return: number of node explored, all the node explored, all the fringe
+    """
+    explored = [] #states I have seen
+    fringe = [] #stored kids
+    fringe.append(start)
+    explored.append(start.state)
+
+    numberExplored = []
+    cost = 0
+
+    while fringe:
+        # BFS
+        if searchType == 1:
+            node = fringe.pop(0)
+        # DLS
+        elif searchType == 2:
+            node = fringe.pop()
+        #calculate the cost for each node
+        cost += node.calcCost()
+        #increment the number of node explore
+        numberExplored.append(node)
+        if node.isGoal(goal):
+            rebuildSolution(node)
+            return numberExplored, explored, fringe
+        else:
+            if (node.getDepth() <= 10):
+                if searchType == 1:
+                    kids, moves = node.findKids(1)
+                elif searchType == 2:
+                    kids, moves = node.findKids(2)
+                for i in range(len(kids)):
                     newNode = Node(kids[i], node, moves[i], False)
                     fringe.append(newNode)
                     explored.append(kids[i])
@@ -160,28 +211,28 @@ def rebuildSolution(node):
         solution.append(s.getAction())
     print(f"moves to solution: {solution}")
 
-def plotBar(bfs, dls, astar, title):
-    """
-
-    :param explored:
-    :return:
-    """
-    list =[]
-    error =[]
-    list.append(mean(bfs))
-    error.append(statistics.stdev(bfs))
-    list.append(mean(dls))
-    error.append(statistics.stdev(dls))
-    list.append(mean(astar))
-    error.append(statistics.stdev(astar))
-    searches=["BFS", "DLS", "A*"]
-    x_pos = [i for i, _ in enumerate(searches)]
-    plt.bar(x_pos, list, color='yellow')
-    plt.xlabel("Search type")
-    plt.ylabel(title)
-    plt.errorbar(x_pos, list, yerr=error, fmt="o", color="r")
-    plt.xticks(x_pos, searches)
-    plt.show()
+# def plotBar(bfs, dls, astar, title):
+#     """
+#
+#     :param explored:
+#     :return:
+#     """
+#     list =[]
+#     error =[]
+#     list.append(mean(bfs))
+#     error.append(statistics.stdev(bfs))
+#     list.append(mean(dls))
+#     error.append(statistics.stdev(dls))
+#     list.append(mean(astar))
+#     error.append(statistics.stdev(astar))
+#     searches=["BFS", "DLS", "A*"]
+#     x_pos = [i for i, _ in enumerate(searches)]
+#     plt.bar(x_pos, list, color='yellow')
+#     plt.xlabel("Search type")
+#     plt.ylabel(title)
+#     plt.errorbar(x_pos, list, yerr=error, fmt="o", color="r")
+#     plt.xticks(x_pos, searches)
+#     plt.show()
 
 def printResult(numberExplored, explored, fringe, verbose):
     """

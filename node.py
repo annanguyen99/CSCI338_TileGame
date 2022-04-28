@@ -150,7 +150,6 @@ class Node:
             moves.append('D')
 
         elif pos == 3 and search == 2:
-            print("no no no no no")
             moveU = copy.deepcopy(self.state)
             moveR = copy.deepcopy(self.state)
             moveD = copy.deepcopy(self.state)
